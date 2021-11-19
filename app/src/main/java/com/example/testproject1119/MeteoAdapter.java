@@ -7,7 +7,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class MeteoAdapter extends RecyclerView.Adapter<MeteoAdapter.ViewHolder> {
-
     @NonNull
     @Override
     public MeteoAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

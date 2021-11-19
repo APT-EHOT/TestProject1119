@@ -17,13 +17,6 @@
                 tools:text="09.02.08"/>
 
         <TextView
-                android:id="@+id/tod"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                tools:text="17:03"/>
-
-        <TextView
                 android:id="@+id/temp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
