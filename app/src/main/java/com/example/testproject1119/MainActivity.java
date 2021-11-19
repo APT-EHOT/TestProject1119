@@ -5,7 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
+
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -16,6 +19,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MainActivity extends AppCompatActivity {
 
     public RecyclerView recyclerView;
+    public WeatherResponse wr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,11 +37,18 @@ public class MainActivity extends AppCompatActivity {
 
         Call<WeatherResponse> call = meteoApi.getMeteo(MeteoApi.query, MeteoApi.appId);
 
+        final Handler handler = new Handler();
+        handler.postDelayed(() -> {
+            MeteoAdapter meteoAdapter = new MeteoAdapter(Objects.requireNonNull(wr).list);
+            recyclerView.setAdapter(meteoAdapter);
+            recyclerView.refreshDrawableState();
+        }, 1000);
+
         call.enqueue(new Callback<WeatherResponse>() {
             @Override
             public void onResponse(@NonNull Call<WeatherResponse> call, @NonNull Response<WeatherResponse> response) {
                 Log.d("MyLog", "Success");
-                WeatherResponse wr = response.body();
+                wr = response.body();
             }
 
             @Override
