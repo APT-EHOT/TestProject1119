@@ -33,7 +33,7 @@ public class MeteoAdapter extends RecyclerView.Adapter<MeteoAdapter.ViewHolder> 
         WeatherItem weatherItem = data.get(position);
         holder.date.setText(weatherItem.dt_txt);
         holder.temp.setText(Double.toString(weatherItem.main.temp));
-        holder.cloud.setText(weatherItem.weather.get(0).toString());
+        holder.cloud.setText(weatherItem.weather.get(0).main);
         holder.wind.setText(Double.toString(weatherItem.wind.speed));
         holder.pressure.setText(Double.toString(weatherItem.main.pressure));
         holder.humidity.setText(Double.toString(weatherItem.main.humidity));

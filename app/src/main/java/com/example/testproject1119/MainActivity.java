@@ -2,11 +2,14 @@ package com.example.testproject1119;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import java.util.Objects;
 
@@ -19,6 +22,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MainActivity extends AppCompatActivity {
 
     public RecyclerView recyclerView;
+    public ProgressBar pb;
     public WeatherResponse wr;
 
     @Override
@@ -27,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         recyclerView = findViewById(R.id.list);
+        pb = findViewById(R.id.progress);
 
         Retrofit retrofit = new Retrofit.Builder()
             .baseUrl(MeteoApi.HOST)
@@ -37,18 +42,23 @@ public class MainActivity extends AppCompatActivity {
 
         Call<WeatherResponse> call = meteoApi.getMeteo(MeteoApi.query, MeteoApi.appId);
 
-        final Handler handler = new Handler();
-        handler.postDelayed(() -> {
-            MeteoAdapter meteoAdapter = new MeteoAdapter(Objects.requireNonNull(wr).list);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+
+        pb.postDelayed(() -> {
+            MeteoAdapter meteoAdapter = new MeteoAdapter(wr.list);
+            recyclerView.setHasFixedSize(true);
+            recyclerView.setLayoutManager(linearLayoutManager);
             recyclerView.setAdapter(meteoAdapter);
-            recyclerView.refreshDrawableState();
-        }, 1000);
+            pb.setVisibility(View.INVISIBLE);
+            recyclerView.setVisibility(View.VISIBLE);
+        }, 5000);
 
         call.enqueue(new Callback<WeatherResponse>() {
             @Override
             public void onResponse(@NonNull Call<WeatherResponse> call, @NonNull Response<WeatherResponse> response) {
-                Log.d("MyLog", "Success");
                 wr = response.body();
+                Log.d("MyLog", "Success");
             }
 
             @Override
