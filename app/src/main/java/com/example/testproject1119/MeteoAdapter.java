@@ -31,12 +31,43 @@ public class MeteoAdapter extends RecyclerView.Adapter<MeteoAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull MeteoAdapter.ViewHolder holder, int position) {
         WeatherItem weatherItem = data.get(position);
-        holder.date.setText(weatherItem.dt_txt);
-        holder.temp.setText(Double.toString(weatherItem.main.temp));
-        holder.cloud.setText(weatherItem.weather.get(0).main);
-        holder.wind.setText(Double.toString(weatherItem.wind.speed));
-        holder.pressure.setText(Double.toString(weatherItem.main.pressure));
-        holder.humidity.setText(Double.toString(weatherItem.main.humidity));
+
+        holder.date.setText(
+            formatDataToDisplay("Time",
+                weatherItem.dt_txt)
+        );
+
+        holder.temp.setText(
+            formatDataToDisplay("Temp",
+                Double.toString(weatherItem.main.temp)
+            )
+        );
+
+        holder.cloud.setText(
+            formatDataToDisplay("Weather",
+                weatherItem.weather.get(0).main
+            )
+        );
+
+        holder.wind.setText(
+            formatDataToDisplay("Wind",
+                Double.toString(weatherItem.wind.speed)
+            )
+        );
+
+        holder.pressure.setText(
+            formatDataToDisplay("Pressure",
+                Double.toString(weatherItem.main.pressure))
+        );
+
+        holder.humidity.setText(
+            formatDataToDisplay("Humidity",
+                Double.toString(weatherItem.main.humidity))
+        );
+    }
+
+    private String formatDataToDisplay(String header, String data) {
+        return header + ": " + data;
     }
 
     @Override
